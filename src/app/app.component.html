@@ -10,7 +10,6 @@
         matInput
         type="number" 
         formControlName="min" 
-        min="0"
         (keypress)="preventInvalidInput($event)"
       />
       <mat-error 
@@ -27,7 +26,7 @@
         matInput 
         type="number" 
         formControlName="max"
-        [min]="minValue"
+        [min]="2"
         (keypress)="preventInvalidInput($event)"
       />
       <mat-error 
@@ -58,24 +57,22 @@
       >
         Este campo es obligatorio.
       </mat-error>
-      <mat-error *ngIf="equalMaxAndWinnerValue">
-        Actualmente solo puedes elegir un número de ganadores entre 1 y 29!.
-      </mat-error>
-      <mat-error *ngIf="!equalAmounts && exceedsMaxLimit">
-        Actualmente solo puedes elegir un número de ganadores entre 1 y 30..
-      </mat-error>
-      <mat-error *ngIf="!equalAmounts && exceedsWinnerLimit && !exceedsMaxLimit">
-        Actualmente solo puedes elegir un número de ganadores entre 1 y {{ maxLimit }}.
+      <mat-error *ngIf="form.get('winners')?.hasError('max')">
+        Actualmente solo puedes elegir un número de ganadores entre 1 y 30.
       </mat-error>
     </mat-form-field>
     <button 
       mat-raised-button 
       color="primary" 
       type="submit"
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || isLoading"
     >
     <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-    <span *ngIf="!isLoading">Generar</span>
+    <span 
+      *ngIf="!isLoading"
+    >
+      Generar
+    </span>
     </button>
     <button 
       mat-raised-button 
