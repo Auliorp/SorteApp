@@ -1,14 +1,253 @@
 section {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  height: 100vh; /* Centrado vertical */
+  height: 100vh;
   padding: 1rem;
   text-align: center;
-  background-color: #ffffff;
+  background-color: transparent;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: auto;
+  overflow: hidden;
+}
+
+h1{
+  font-size: 2rem;
+  font-weight: 900;
+  margin-top: 20px;
+  color: white;
+}
+
+h2{
+  margin-top: 15px;
+  color: white;
+}
+
+p{
+  font-size: 1rem;
+  color: white;
+  padding: 10px;
+}
+
+.container-min-max{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.container-winners{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.container-button{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.winners-restriction{
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  color: #877575;
+  font-size: 12px;
+  margin-top: -14px;
+}
+
+.info-icon{
+  font-size: 12px;
+  margin-right: -5px;
+}
+
+.button-clean{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 50px;
+  width: 40%;
+  height: 55px;
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: #ffd5a41b;
+  border: none;
+  color: #ffe4d8;
+}
+
+.button-clean:disabled {
+  cursor: not-allowed;
+  background-color: #e3c0987f;
+  color: #9c9c9c;
+}
+
+.button-submit{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 50px;
+  width: 60%;
+  height: 55px;
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: #ffd5a41b;
+  border: none;
+  color: #ffe4d8;
+}
+
+.button-submit:disabled {
+  cursor: not-allowed;
+  background-color: #e3c0987f;
+  color: #9c9c9c;
+}
+
+.spinner{
+  padding-top: 50px;
+}
+
+.result-card {
+  display: flex;
+  justify-content: center;
+  background-color: #ffd5a41b;
+  color: white;
   border-radius: 8px;
-  max-width: 460px;
-  margin: auto; /* Centrado horizontal */
+  text-align: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 8px #ffd5a441;
+  width: 50px;
+  height: 50px;
+}
+
+.result-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  max-height: 400px;
+  padding-right: 8px;
+}
+
+.result-card-large {
+  width: 250px;
+  height: 250px;
+  font-size: 2.5rem;
+}
+
+.single-result {
+  justify-content: center;
+}
+
+.single-number {
+  font-size: 90px;
+}
+
+.result-number {
+  margin: 0;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+
+.result-card-large {
+  width: 150px;
+  height: 150px;
+  font-size: 2.5rem;
+}
+
+@media (max-width: 459px) {
+  section {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  p{
+    font-size: small;
+    padding: 0;
+  }
+
+  h2{
+    font-size: large;
+    margin-top: 8px
+  }
+
+  .container-min-max{
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .container-button{
+    gap: 5px;
+  }
+
+  mat-form-field.small {
+    --mat-form-field-container-height: 40px;
+    --mat-form-field-container-vertical-padding: 8px;
+  }
+  .button-clean, .button-submit{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+  }
+  .result-card {
+    width: 30px;
+    height: 30px;
+  }
+  .result-card-large {
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+  }
+  .single-number{
+    font-size: xx-large;
+  }
+  .winners-restriction{
+    width: 270px;
+    font-size: smaller;
+  }
+}
+
+@media (min-width: 460px) and (max-width: 768px) {
+  p{
+    font-size: large;
+  }
+  .container-min-max{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+  }
+  .container-winners{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;    
+  }
+  .container-button{
+    display: flex;
+    gap: 8px;
+  }
+  .button-clean, .button-submit{
+    height: 45px;
+    max-height: 45px;
+    width: 100%;
+  }
+  .result-card {
+    width: 50px;
+    height: 50px;
+  }
+  .result-card-large {
+    width: 150px;
+    height: 150px;
+    font-size: 2.5rem;
+  }
 }

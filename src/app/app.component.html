@@ -1,94 +1,142 @@
 <section>
-  <h1>SorteApp</h1>
-  <p>Pagina web creada para realizar sorteos de forma aleatoria donde debe ingresar el numero minimo y maximo de participantes, ademas del numero de ganadores</p>
+  <h1>
+    🎉 SorteApp 🎉
+  </h1>
+  <p>
+    Genera números aleatorios de forma rápida y segura. Ingresa el rango de participantes y la cantidad de ganadores para realizar tu sorteo.
+  </p>
   <form 
     [formGroup]="form" 
-    (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline">
-      <mat-label>Número mínimo</mat-label>
-      <input 
-        matInput
-        type="number" 
-        formControlName="min" 
-        (keypress)="preventInvalidInput($event)"
-      />
-      <mat-error 
-        *ngIf="form.get('min')?.hasError('required')"
-      >
-        Este campo es obligatorio.
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field 
-      appearance="outline">
-      <mat-label>Número máximo</mat-label>
-      <input 
-        matInput 
-        type="number" 
-        formControlName="max"
-        [min]="2"
-        (keypress)="preventInvalidInput($event)"
-      />
-      <mat-error 
-        *ngIf="form.get('max')?.hasError('required')"
-      >
-        Este campo es obligatorio.
-      </mat-error>
-      <mat-error 
-        *ngIf="form.get('max')?.hasError('min')"
-      >
-        El numero maximo debe ser por lo menos {{ minValue }} o mayor.
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field 
-      appearance="outline"
+    (ngSubmit)="onSubmit()"
+  >
+    <div 
+      style="font-size: 18px"
+      class="container-min-max"
     >
-      <mat-label>Cantidad de ganadores</mat-label>
-      <input 
-        matInput 
-        type="number" 
-        formControlName="winners"
-        [min]="1"
-        [max]="30"
-        (keypress)="preventInvalidInput($event)"
-      />
-      <mat-error 
-        *ngIf="form.get('winners')?.hasError('required')"
+      <mat-form-field
+        class="small" 
+        appearance="outline"
       >
-        Este campo es obligatorio.
-      </mat-error>
-      <mat-error *ngIf="form.get('winners')?.hasError('max')">
-        Actualmente solo puedes elegir un número de ganadores entre 1 y 30.
-      </mat-error>
-    </mat-form-field>
-    <button 
-      mat-raised-button 
-      color="primary" 
-      type="submit"
-      [disabled]="form.invalid || isLoading"
-    >
-    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-    <span 
-      *ngIf="!isLoading"
-    >
-      Generar
-    </span>
-    </button>
-    <button 
-      mat-raised-button 
-      color="warn" 
-      type="button" 
-      (click)="onReset()"
-      [disabled]="disableButtonClean"
-    >
-      Limpiar
-    </button>
+        <mat-label>
+          Número mínimo
+        </mat-label>
+        <input 
+          matInput
+          type="number" 
+          formControlName="min"
+          min="0"
+          (keypress)="preventInvalidInput($event)"
+        />
+        <mat-error 
+          *ngIf="form.get('min')?.hasError('required')"
+        >
+          Este campo es obligatorio.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field
+        class="small"
+        appearance="outline"
+      >
+        <mat-label>
+          Número máximo
+        </mat-label>
+        <input 
+          matInput 
+          type="number" 
+          formControlName="max"
+          [min]="minValue"
+          (keypress)="preventInvalidInput($event)"
+        />
+        <mat-error 
+          *ngIf="form.get('max')?.hasError('required')"
+        >
+          Este campo es obligatorio.
+        </mat-error>
+        <mat-error 
+          *ngIf="form.get('max')?.hasError('min')"
+        >
+          num max debe ser {{ minValue }} o mayor.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="container-winners">
+      <mat-form-field 
+        class="small"
+        appearance="outline"
+      >
+        <mat-label>
+          Cantidad de ganadores
+        </mat-label>
+        <input 
+          matInput 
+          type="number" 
+          formControlName="winners"
+          [min]="1"
+          [max]="30"
+          (keypress)="preventInvalidInput($event)"
+        />
+        <mat-error 
+          *ngIf="form.get('winners')?.hasError('required')"
+        >
+          Este campo es obligatorio.
+        </mat-error>
+      </mat-form-field>
+      <span class="winners-restriction">
+        <mat-icon class="info-icon">info</mat-icon>
+        Solo se acepta un maximo de {{limitWinners}} ganadores
+      </span>
+    </div>
+    <div class="container-button">
+      <button 
+        class="button-submit"
+        type="submit"
+        [disabled]="form.invalid || isLoading"
+      >
+        Generar
+      </button>
+      <button
+        mat-flat-button
+        class="button-clean"
+        type="button" 
+        [disabled]="disableButtonClean"
+        (click)="onReset()"
+      >
+      <mat-icon>delete</mat-icon>
+        Limpiar
+      </button>
+    </div>
   </form>
-  <mat-spinner *ngIf="isLoading" diameter="50"></mat-spinner>
-  <div *ngIf="results.length > 0" style="margin-top: 16px;">
-    <h2>Resultados:</h2>
-    <ul>
-      <li *ngFor="let result of results">{{ result }}</li>
-    </ul>
+  <div 
+    class="spinner"
+    *ngIf="isLoading"
+  >
+    <mat-spinner diameter="100">
+    </mat-spinner>
+  </div>
+  <div 
+    *ngIf="results.length > 0" 
+  >
+    <h2>
+      {{ results.length === 1 ? 'Resultado:' : 'Resultados:' }}
+    </h2>
+    <div 
+      class="result-cards"
+      [ngClass]="{'single-result': results.length === 1}"
+    >
+      <mat-card 
+        *ngFor="let result of results" 
+        class="result-card"
+        [ngClass]="{'result-card-large': results.length === 1}"
+      >
+        <mat-card-content>
+          <p 
+            class="result-number"
+            [ngClass]="{'single-number': results.length === 1}"
+          >
+            {{ result }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </section>

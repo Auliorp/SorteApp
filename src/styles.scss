@@ -1,3 +1,58 @@
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", 
+  sans-serif; 
+  background: linear-gradient(-45deg, #d63873, #ea5d7e, #fa8862, #f8a589);
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+// Paint the edges of the input
+.mdc-text-field--outlined .mdc-notched-outline__leading,
+.mdc-text-field--outlined .mdc-notched-outline__notch,
+.mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-color: white !important;
+}
+// Paint the input text
+mat-form-field.ng-valid.ng-touched .mat-mdc-floating-label,
+mat-form-field.ng-dirty .mat-mdc-floating-label,
+mat-form-field.ng-pristine .mat-mdc-floating-label,
+mat-form-field .mat-mdc-text-field-wrapper input {
+  color: white !important;
+}
+// Paint the edges of the input error
+mat-form-field.ng-invalid.ng-touched .mdc-notched-outline__leading,
+mat-form-field.ng-invalid.ng-touched .mdc-notched-outline__notch,
+mat-form-field.ng-invalid.ng-touched .mdc-notched-outline__trailing {
+  border-color: red !important;
+}
+// Paint the input error text
+mat-form-field.ng-invalid.ng-touched .mat-mdc-floating-label,
+mat-form-field.ng-invalid.ng-touched .mat-mdc-form-field-error {
+  color: red !important;
+}
+
+// Hide the arrows inside the input
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__leading,
+.mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__notch,
+.mdc-text-field--outlined.mdc-text-field--disabled .mdc-notched-outline__trailing {
+  border-color: #877575 !important;
+}
+
+mat-form-field.mat-form-field-disabled .mat-mdc-floating-label,
+.mat-mdc-text-field-wrapper input:disabled {
+  color: #877575 !important;
+}
+
+.mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: white !important;
+}

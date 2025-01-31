@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import confetti from 'canvas-confetti';
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -15,6 +16,8 @@ import confetti from 'canvas-confetti';
     ReactiveFormsModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatCardModule,
+    MatIconModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -88,12 +91,15 @@ export class AppComponent {
     }
   };
   
-  private handleMaxChange(max: string): void {
+  private handleMaxChange(max: string): any {
     const { min: minControl, max: maxControl, winners: winnersControl } = this.controls;
     const min =  minControl?.value;
 
     this.minValue = min + 2;
 
+    if(minControl?.value >= maxControl?.value ){
+      return true
+    }
     minControl?.valid && maxControl?.valid 
     ? winnersControl?.enable() 
     : winnersControl?.disable();
@@ -102,7 +108,7 @@ export class AppComponent {
   private handleWinnersValueChange(value: number): void {
     const { max, winners } = this.controls;
     const maxValue = max?.value;
-    
+
     if(value === maxValue || value > maxValue && maxValue <= 30 ){
       winners?.setValue(maxValue - 1);
     }
@@ -140,10 +146,11 @@ export class AppComponent {
 
   private launchConfetti(): void {
     confetti({
-      particleCount: 200,
+      particleCount: 300,
       spread: 70,
       origin: { y: 0.6 },
       colors: ['#ff0000', '#00ff00', '#0000ff'],
+      decay: 0.9,
     });
   }
 
@@ -168,12 +175,13 @@ export class AppComponent {
       max: '',
       winners: null,
     });
+    this.results = []
   }
 
   get disableButtonClean(): boolean {
-    const { min, max, winners } = this.controls;
+    const { minValue, maxValue, winnersValue } = this.dataValue;
 
-    return !min?.value && !max?.value && !winners?.value;
+    return !minValue && !maxValue && !winnersValue;
   }
 
   get controls() {
@@ -182,5 +190,24 @@ export class AppComponent {
       max: this.form.get('max'),
       winners: this.form.get('winners'),
     };
+  }
+
+  get dataValue() {
+    return {
+      minValue: this.form.get('min')?.value,
+      maxValue: this.form.get('max')?.value,
+      winnersValue: this.form.get('winners')?.value,
+    };
+  }
+
+  get limitWinners(){
+    const { minValue, maxValue } = this.dataValue;
+
+    if (!maxValue) {
+      return 30;
+    }
+    const range = maxValue - minValue;
+    
+    return range < 30 ? Math.max(range, 1) : 30;
   }
 }
